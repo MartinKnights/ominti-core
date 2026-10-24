@@ -1101,25 +1101,41 @@ def _check_configs() -> tuple[dict, list[Finding]]:
         )
 
     for name, path in links.items():
-        if path.is_symlink():
-            target = str(path.resolve()) if path.exists() else "broken"
-            state = "pass" if path.exists() else "fail"
-            detail = f"{path} -> {target}"
-            fix = "" if path.exists() else "The symlink target is missing; rerun install.sh."
-        else:
-            state = "fail"
-            detail = f"{path} is not a symlink"
-            fix = "Run install.sh to create the CLI symlinks."
-        configs[name] = {"path": str(path), "present": state == "pass", "state": state}
-        findings.append(
-            Finding(
-                f"config.{name}",
-                state,
-                detail,
-                fix,
-                "blocking" if state == "fail" else "info",
+        if path.is_symlink() and path.exists():
+            configs[name] = {"path": str(path), "present": True, "state": "pass"}
+            findings.append(
+                Finding(
+                    f"config.{name}",
+                    "pass",
+                    f"{path} -> {path.resolve()}",
+                )
             )
-        )
+        elif path.is_symlink():
+            # A link that points nowhere is a broken install, not a fresh one.
+            configs[name] = {"path": str(path), "present": False, "state": "fail"}
+            findings.append(
+                Finding(
+                    f"config.{name}",
+                    "fail",
+                    f"{path} is a broken symlink",
+                    "Rerun install.sh to relink it.",
+                    "blocking",
+                )
+            )
+        else:
+            # Missing (or a real file where our link should be) means "not set
+            # up yet": install.sh creates this. Not blocking — otherwise every
+            # fresh machine reports itself as unsafe to install on.
+            configs[name] = {"path": str(path), "present": False, "state": "warn"}
+            findings.append(
+                Finding(
+                    f"config.{name}",
+                    "warn",
+                    f"{path} is not installed yet"
+                    if not path.exists() else f"{path} is a file, not our symlink",
+                    "install.sh creates this symlink.",
+                )
+            )
 
     for name, path in plugins.items():
         present = path.exists()

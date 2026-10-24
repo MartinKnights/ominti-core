@@ -359,8 +359,10 @@ def test_check_configs_reports_symlink_state(tmp_path, monkeypatch):
     _configs, findings = _check_configs()
     by_id = {f.id: f for f in findings}
 
-    assert by_id["config.ominty_cli"].status == "fail"
-    assert by_id["config.ominty_cli"].severity == "blocking"
+    # Not installed yet is expected before the first install; only a broken
+    # link means a previous install is broken.
+    assert by_id["config.ominty_cli"].status == "warn"
+    assert by_id["config.ominty_cli"].severity != "blocking"
 
     # A real symlink to an existing target must pass.
     target = tmp_path / "cli" / "ominty"

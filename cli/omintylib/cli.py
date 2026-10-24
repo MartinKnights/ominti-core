@@ -561,9 +561,16 @@ def cmd_voice_panel(args: argparse.Namespace) -> int:
 
 
 def cmd_tts_say(args: argparse.Namespace) -> int:
-    from .tts import start_player
+    from .tts import TTSError, start_player
 
-    return _print_voice_result(start_player(args.file), args.json)
+    # Extraction errors (missing pandoc/pdftotext, unsupported type) must come
+    # back as a normal error envelope: this runs from a niri keybinding, where
+    # a traceback on stderr is invisible and looks like "nothing happened".
+    try:
+        result = start_player(args.file)
+    except (TTSError, OSError) as e:
+        result = {"success": False, "error": {"code": "ADAPTER_FAILED", "message": str(e)}}
+    return _print_voice_result(result, args.json)
 
 
 def cmd_tts_mp3(args: argparse.Namespace) -> int:

@@ -354,13 +354,21 @@ def start_player(doc_path: str | Path) -> dict:
     env["PYTHONPATH"] = cli_dir + (
         os.pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else ""
     )
+    # The player is spawned by a niri keybinding, so its stderr is invisible.
+    # Keep a log, and report a player that dies immediately instead of leaving
+    # the user with a document picker that did nothing (LMDE 7, 2026-10-24).
+    log_path = run_dir() / "player.log"
+    try:
+        log = open(log_path, "wb")
+    except OSError:
+        log = subprocess.DEVNULL
     try:
         proc = subprocess.Popen(
             [sys.executable, "-m", "omintylib.tts_player", str(doc_path)],
             env=env,
             stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+            stdout=log,
+            stderr=log,
             start_new_session=True,
         )
     except OSError as e:
@@ -368,4 +376,31 @@ def start_player(doc_path: str | Path) -> dict:
             "success": False,
             "error": {"code": "ADAPTER_FAILED", "message": str(e)},
         }
+    finally:
+        if log is not subprocess.DEVNULL:
+            log.close()
+
+    time.sleep(0.8)
+    status = proc.poll()
+    if status is not None:
+        detail = ""
+        try:
+            lines = [
+                ln for ln in log_path.read_text(errors="replace").splitlines() if ln.strip()
+            ]
+            detail = " | ".join(lines[-3:])
+        except OSError:
+            pass
+        return {
+            "success": False,
+            "error": {
+                "code": "ADAPTER_FAILED",
+                "message": (
+                    f"TTS player exited immediately (status {status})"
+                    + (f": {detail}" if detail else "")
+                    + f" — see {log_path}"
+                ),
+            },
+        }
+
     return {"success": True, "state": {"pid": proc.pid, "doc": str(doc_path)}}

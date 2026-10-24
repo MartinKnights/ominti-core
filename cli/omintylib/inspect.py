@@ -180,6 +180,11 @@ _TTS = Layer(
         # these are the runtime tools the voice adapter shells out to.
         Package("ffmpeg", "apt", "normalises recordings for whisper.cpp"),
         Package("pipewire-bin", "apt", "pw-record, used to capture dictation"),
+        # Ominty Reader extracts text before speaking it. Without these, only
+        # .txt works and every other type fails silently when spawned from niri.
+        Package("pandoc", "apt", "text extraction for .md/.docx/.epub"),
+        Package("poppler-utils", "apt", "pdftotext, for .pdf"),
+        Package("catdoc", "apt", "text extraction for .doc"),
     ),
 )
 

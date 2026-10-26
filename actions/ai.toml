@@ -174,7 +174,10 @@ confirmation = "never"
 
 contexts = ["global"]
 platforms = ["common"]
-requires = ["dms", "ollama"]
+# Opening the manager must work without Ollama: it is where the user installs,
+# starts and pulls models. Requiring the daemon made `verify-parity` fail on
+# every machine that had not set AI up yet (LMDE 7, 2026-10-26).
+requires = ["dms"]
 
 discoverable = true
 palette = true

@@ -143,6 +143,12 @@ _DESKTOP = Layer(
         Package("libglib2.0-bin", "apt", "gdbus, used by wait-for-tray"),
         Package("swayidle", "apt", "idle/lock daemon for the Niri session"),
         Package("swaylock", "apt", "screen locker used by swayidle"),
+        # Runtime-only Qt pieces. The -dev packages do not install these, and
+        # without them Quickshell falls back to xcb (no bar) and DankChat's
+        # media view fails to load.
+        Package("qt6-wayland", "apt", "Qt Wayland QPA plugin (Quickshell needs it)"),
+        Package("qml6-module-qtmultimedia", "apt", "QtMultimedia QML module (DankChat)"),
+        Package("qt6-image-formats-plugins", "apt", "image format plugins (DankChat)"),
     ),
 )
 
@@ -191,12 +197,18 @@ _TTS = Layer(
 _TERMINAL = Layer(
     id="terminal",
     label="Terminal and shell",
-    provisioned=False,
+    provisioned=True,
     description="Terminal emulators, shell, and terminal multiplexer.",
     packages=(
         Package("alacritty", "apt", "GPU-accelerated terminal", binary="alacritty"),
         Package("ghostty", "obs", "fast terminal (alternative to alacritty)", binary="ghostty"),
-        Package("zellij", "apt", "terminal multiplexer", binary="zellij"),
+        Package(
+            "zellij",
+            "script",
+            "terminal multiplexer (installed from the upstream release)",
+            required=False,
+            binary="zellij",
+        ),
         Package("starship", "apt", "cross-shell prompt", binary="starship"),
         Package("bash-completion", "apt", "shell completions"),
     ),
@@ -205,7 +217,7 @@ _TERMINAL = Layer(
 _EDITOR = Layer(
     id="editor",
     label="Editor",
-    provisioned=False,
+    provisioned=True,
     description="Modal editor and its integrations.",
     packages=(
         Package("neovim", "apt", "modal editor", binary="nvim"),
@@ -216,7 +228,7 @@ _EDITOR = Layer(
 _CLI = Layer(
     id="cli",
     label="Command-line tooling",
-    provisioned=False,
+    provisioned=True,
     description="Package management and everyday CLI utilities.",
     packages=(
         Package("nala", "apt", "APT front-end used in place of raw apt"),
@@ -237,7 +249,7 @@ _CLI = Layer(
 _CONTAINERS = Layer(
     id="containers",
     label="Containers",
-    provisioned=False,
+    provisioned=True,
     description="Rootless containers and development environments.",
     packages=(
         Package("podman", "apt", "rootless container engine", binary="podman"),
@@ -248,7 +260,7 @@ _CONTAINERS = Layer(
 _BROWSER = Layer(
     id="browser",
     label="Browser",
-    provisioned=False,
+    provisioned=True,
     description="Default browser.",
     packages=(
         Package("firefox-esr", "apt", "web browser", binary="firefox-esr|firefox"),
@@ -740,6 +752,9 @@ def _check_layers(osr: dict[str, str]) -> tuple[dict, list[Finding]]:
                 elif pkg.source == "local":
                     reason = "Not installed; ships as a local .deb in packages/."
                     fix = "Run install.sh to install the bundled .deb."
+                elif pkg.source == "script":
+                    reason = "Not installed; installed by install.sh from the upstream release."
+                    fix = "Run install.sh with the terminal layer."
                 elif pkg.name == "quickshell" and not has_backports:
                     reason = "Not installed; trixie-backports is not enabled."
                     fix = "Enable trixie-backports, then install quickshell."
@@ -1331,19 +1346,24 @@ def _choice_llm_provider() -> tuple[Choice, dict]:
             detail = f"{detail} — {reason}"
         return ChoiceOption(value, label, detail, ok, reason)
 
+    # AI is configured in the *last* step of setup, not during the install.
+    # It is still a choice (with its detected availability) so the final phase
+    # can ask it, but it never blocks the desktop.
+    current_state = (status.get(current) or {}).get("state") if current else None
+    resolved = current == "none" or current_state == "available"
+
     choice = Choice(
         id="llm.provider",
         question=(
             "Which LLM should power the AI actions (Super+A), or should AI be "
             "left unconfigured?"
         ),
-        required=True,
-        # Already configured on this machine, so the answer is known.
-        resolved=bool(current),
+        required=False,
+        resolved=resolved,
         rationale=(
-            "AI actions need a provider before the configuration can be "
-            "written. The choice determines ~/.config/ominty/ai.toml and "
-            "whether any model is downloaded, so it must not be guessed."
+            "AI is set up at the end of the process (scripts/setup-ai.sh), "
+            "after the desktop is verified. The installer leaves AI "
+            "unconfigured, so nothing here blocks the desktop."
         ),
         default="ollama",
         options=(
@@ -1376,7 +1396,7 @@ def _choice_llm_provider() -> tuple[Choice, dict]:
 
 def _choice_layers() -> tuple[Choice, dict]:
     """Which layers to install beyond the mandatory desktop."""
-    optional = [layer for layer in LAYERS if not layer.provisioned]
+    optional = [layer for layer in LAYERS if layer.id != "desktop"]
     return (
         Choice(
             id="layers",

@@ -46,7 +46,7 @@ def test_manifest_is_well_formed():
         assert layer.label, f"layer {layer.id} has no label"
         for pkg in layer.packages:
             assert pkg.purpose, f"{layer.id}/{pkg.name} has no purpose"
-            assert pkg.source in ("apt", "obs", "local")
+            assert pkg.source in ("apt", "obs", "local", "script")
 
 
 def test_dpkg_status_ignores_architecture_suffix(monkeypatch):
@@ -582,10 +582,10 @@ def test_unknown_provider_is_not_claimed_unavailable(monkeypatch):
     assert all(o.available for o in choice.options)
 
 
-def test_layers_choice_lists_only_unprovisioned_layers(monkeypatch):
+def test_layers_choice_lists_every_non_desktop_layer(monkeypatch):
     choice, detected = insp._choice_layers()
-    optional = {layer.id for layer in LAYERS if not layer.provisioned}
-    assert {o.value for o in choice.options} == optional
+    expected = {layer.id for layer in LAYERS if layer.id != "desktop"}
+    assert {o.value for o in choice.options} == expected
     assert detected["required_layer"] == "desktop"
     assert detected["provisioned_layers"] == [
         layer.id for layer in LAYERS if layer.provisioned
@@ -621,12 +621,16 @@ def test_required_choices_in_summary(monkeypatch):
     monkeypatch.setattr(insp, "_have_sudo", lambda: True)
     monkeypatch.setattr(insp, "_os_release", lambda: LMDE)
 
-    summary = inspect()["summary"]
+    report = inspect()
+    summary = report["summary"]
     required = summary["required_choices"]
-    assert "llm.provider" in required
+    # AI is configured in the final setup phase, so it must not block install.
+    assert "llm.provider" not in required
     assert "session.default" in required
     assert "config.migration" in required
     assert "layers" not in required  # optional choices are not required
+    # It is still offered, for the final phase to ask.
+    assert "llm.provider" in {c["id"] for c in report["choices"]}
 
 
 def test_configured_provider_resolves_llm_choice(monkeypatch):
@@ -635,6 +639,10 @@ def test_configured_provider_resolves_llm_choice(monkeypatch):
     from omintylib import ai
 
     monkeypatch.setattr(ai, "default_provider", lambda: "ollama")
+    monkeypatch.setattr(
+        insp, "_provider_availability",
+        lambda: {"ollama": {"provider": "ollama", "state": "available", "detail": ""}},
+    )
 
     choices, findings = insp._build_choices()
     llm = next(c for c in choices if c["id"] == "llm.provider")
@@ -642,14 +650,28 @@ def test_configured_provider_resolves_llm_choice(monkeypatch):
     assert "choice.llm.provider" not in {f.id for f in findings}
 
 
-def test_unconfigured_provider_leaves_llm_choice_required(monkeypatch):
-    """With no provider configured, llm.provider still needs the user."""
+def test_unconfigured_provider_leaves_llm_choice_open(monkeypatch):
+    """With no provider configured the choice stays open, but is not required."""
     _stub_report_deps(monkeypatch)  # stubs default_provider -> ""
 
     choices, findings = insp._build_choices()
     llm = next(c for c in choices if c["id"] == "llm.provider")
     assert llm["resolved"] is False
-    assert "choice.llm.provider" in {f.id for f in findings}
+    assert llm["required"] is False
+    assert "choice.llm.provider" not in {f.id for f in findings}
+
+
+def test_none_provider_resolves_llm_choice(monkeypatch):
+    """Choosing 'none' is a decision, not an unfinished question."""
+    _stub_report_deps(monkeypatch)
+    from omintylib import ai
+
+    monkeypatch.setattr(ai, "default_provider", lambda: "none")
+
+    choices, findings = insp._build_choices()
+    llm = next(c for c in choices if c["id"] == "llm.provider")
+    assert llm["resolved"] is True
+    assert "choice.llm.provider" not in {f.id for f in findings}
 
 
 def test_deployed_config_resolves_migration_choice(monkeypatch, tmp_path):
@@ -828,9 +850,8 @@ def test_main_rejects_unknown_layer(monkeypatch):
 
 
 def test_main_exit_code_reflects_readiness(monkeypatch, capsys):
-    monkeypatch.setattr(insp, "_dpkg_status", lambda names: {})
-    monkeypatch.setattr(insp, "_apt_sources", lambda: {})
-    monkeypatch.setattr(insp, "_apt_pins", lambda: [])
+    everything = {pkg.name: "1.0" for layer in LAYERS for pkg in layer.packages}
+    _stub_layer_deps(monkeypatch, everything)
     monkeypatch.setenv("XDG_SESSION_TYPE", "x11")
     monkeypatch.setenv("XDG_CURRENT_DESKTOP", "X-Cinnamon")
 
@@ -851,9 +872,9 @@ def test_main_exit_code_reflects_readiness(monkeypatch, capsys):
 
 def test_main_exit_code_ignores_outstanding_choices(monkeypatch, capsys):
     """An unanswered question must not make the machine look unready."""
-    monkeypatch.setattr(insp, "_dpkg_status", lambda names: {})
-    monkeypatch.setattr(insp, "_apt_sources", lambda: {})
-    monkeypatch.setattr(insp, "_apt_pins", lambda: [])
+    _stub_report_deps(monkeypatch)
+    everything = {pkg.name: "1.0" for layer in LAYERS for pkg in layer.packages}
+    _stub_layer_deps(monkeypatch, everything)
     monkeypatch.setattr(insp, "_check_configs", lambda: ({}, []))
     monkeypatch.setenv("XDG_SESSION_TYPE", "x11")
     monkeypatch.setenv("XDG_CURRENT_DESKTOP", "X-Cinnamon")

@@ -200,8 +200,20 @@ _TERMINAL = Layer(
     provisioned=True,
     description="Terminal emulators, shell, and terminal multiplexer.",
     packages=(
-        Package("alacritty", "apt", "GPU-accelerated terminal", binary="alacritty"),
-        Package("ghostty", "obs", "fast terminal (alternative to alacritty)", binary="ghostty"),
+        Package(
+            "alacritty",
+            "apt",
+            "GPU-accelerated terminal (alternative to ghostty)",
+            required=False,
+            binary="alacritty",
+        ),
+        Package(
+            "ghostty",
+            "obs",
+            "fast terminal (alternative to alacritty)",
+            required=False,
+            binary="ghostty",
+        ),
         Package(
             "zellij",
             "script",

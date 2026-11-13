@@ -2,7 +2,7 @@
 
 **Project:** `ominty-core`
 **Phase:** Phase 1
-**Primary concepts:** Pi, Herdr, Ominty Actions
+**Primary concepts:** Pi, Herdr, Omi Actions
 
 ---
 

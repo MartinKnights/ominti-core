@@ -8,7 +8,7 @@ import qs.Common
 import qs.Widgets
 import qs.Modules.Plugins
 
-// Ominty Keybindings — GKS cheat sheet (docs/14-gks-keyboard-grammar.md §22).
+// Omi Keybindings — GKS cheat sheet (docs/14-gks-keyboard-grammar.md §22).
 //
 // A read-only, tabbed overlay: one tab per GKS domain, each listing
 // `key → action`. Data comes from `ominty keybinds --json`, which walks the

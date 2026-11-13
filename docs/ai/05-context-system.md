@@ -1,4 +1,4 @@
-# Ominty AI Context System Specification
+# Omi AI Context System Specification
 
 **Project:** `ominty-core`
 **Subsystem:** AI

@@ -34,7 +34,7 @@ DMS spotlight:
 Super+A
    ↓  (Niri bind: dms ipc call spotlight openQuery "!ai ")
 DMS spotlight — AI mode ("!ai" sentinel)
-   ↓  (Ominty Actions launcher plugin)
+   ↓  (Omi Actions launcher plugin)
 AI items:  Ask AI  ·  Open Pi      (plus "Ask AI: <text>" once typed)
    ↓
 ominty ai ask "<text>"   /   ominty action run ai.pi.open

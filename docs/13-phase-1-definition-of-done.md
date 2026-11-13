@@ -209,7 +209,7 @@ At minimum, it should expose implemented AI capabilities and reserved conceptual
 
 # 17. Pi Integration Complete
 
-Pi should be launchable or invokable through the Ominty AI layer.
+Pi should be launchable or invokable through the Omi AI layer.
 
 If Pi itself is unavailable, the reason must be documented and the action marked unavailable.
 

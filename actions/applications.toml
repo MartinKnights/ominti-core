@@ -174,7 +174,7 @@ voice_accessible = false
 [action."app.download.toggle"]
 
 name = "Download Manager"
-description = "Open the Ominty download manager (aria2)."
+description = "Open the Omi Download Manager (aria2)."
 category = "Applications"
 
 keywords = ["download", "downloader", "aria2", "queue"]

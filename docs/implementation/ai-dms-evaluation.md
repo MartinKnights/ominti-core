@@ -162,7 +162,7 @@ Super+A
    ↓
 DMS spotlight (AI mode, "!ai" sentinel)
    ↓
-Ominty Actions launcher plugin
+Omi Actions launcher plugin
    ↓
 ai.ask / ai.pi.open  (Action Registry)
    ↓

@@ -19,7 +19,7 @@ Super+A
 
 `Super+A` is not intended to be a single chatbot shortcut.
 
-It is the root of the Ominty AI interaction namespace.
+It is the root of the Omi AI interaction namespace.
 
 The objective is:
 
@@ -112,7 +112,7 @@ Preferred behaviour:
 ```text
 Super+A
    ↓
-DMS / Ominty AI interface
+DMS / Omi AI interface
    ↓
 AI options
 ```
@@ -241,7 +241,7 @@ Possible UI:
 
 ```text
 ┌─────────────────────────────────────────┐
-│ Ask Ominty AI...                       │
+│ Ask Omi AI...                       │
 └─────────────────────────────────────────┘
 ```
 

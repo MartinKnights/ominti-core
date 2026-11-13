@@ -172,7 +172,7 @@ Scope {
                     horizontalAlignment: Text.AlignHCenter
                     text: root.state === "recording" ? "Dictating\u2026"
                         : root.state === "transcribing" ? "Transcribing\u2026"
-                        : "Ominty Dictation"
+                        : "Omi Dictation"
                     color: root.pal.on_background
                     font.pixelSize: 11
                 }

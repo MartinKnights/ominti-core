@@ -1,4 +1,4 @@
-# Ominty AI configuration — portable defaults
+# Omi AI configuration — portable defaults
 # docs/12-configuration-layout.md, docs/ai/10 §9, docs/ai/02 §16
 #
 # Provider selection for generic AI actions (ai.ask). Users may override

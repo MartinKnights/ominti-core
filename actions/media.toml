@@ -87,7 +87,7 @@ category = "Media"
 
 keywords = ["media", "playlist", "music", "video", "audio", "courses", "launcher"]
 
-# Shift+Alt+M is the Ominty desktop chord; Ctrl+Shift+M is kept as an
+# Shift+Alt+M is the Omi desktop chord; Ctrl+Shift+M is kept as an
 # alias so either habit works (both are free — checked against 168 binds).
 keys = ["Shift+Alt+M", "Ctrl+Shift+M"]
 

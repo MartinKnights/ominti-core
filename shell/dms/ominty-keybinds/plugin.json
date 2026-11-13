@@ -1,9 +1,9 @@
 {
     "id": "omintyKeybinds",
-    "name": "Ominty Keybindings",
+    "name": "Omi Keybindings",
     "description": "GKS keybindings cheat sheet — every binding, grouped into tabs by domain (read-only).",
     "version": "0.1.0",
-    "author": "Ominty",
+    "author": "Ominti-Desktop",
     "icon": "keyboard",
     "type": "daemon",
     "capabilities": [

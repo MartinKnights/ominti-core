@@ -5,7 +5,7 @@ Purpose
 An installing agent needs to know, without guessing:
 
 * what this machine is (distro, codename, session, hardware);
-* which parts of the Ominty layer are already present;
+* which parts of the Ominti-Desktop layer are already present;
 * what is missing, and *why* it might be missing (wrong source);
 * which choices still need a human answer.
 
@@ -23,7 +23,7 @@ Design constraints
   agent can detect a mismatch instead of misreading the payload.
 
 The layer manifest below is the single source of truth for "what does the
-Ominty layer consist of". Adding a layer is a data change, not a code change.
+Ominti-Desktop layer consist of". Adding a layer is a data change, not a code change.
 """
 
 from __future__ import annotations
@@ -186,7 +186,7 @@ _TTS = Layer(
         # these are the runtime tools the voice adapter shells out to.
         Package("ffmpeg", "apt", "normalises recordings for whisper.cpp"),
         Package("pipewire-bin", "apt", "pw-record, used to capture dictation"),
-        # Ominty Reader extracts text before speaking it. Without these, only
+        # Omi Reader extracts text before speaking it. Without these, only
         # .txt works and every other type fails silently when spawned from niri.
         Package("pandoc", "apt", "text extraction for .md/.docx/.epub"),
         Package("poppler-utils", "apt", "pdftotext, for .pdf"),
@@ -562,7 +562,7 @@ def _check_platform(osr: dict[str, str]) -> tuple[dict, list[Finding]]:
                 "platform",
                 "fail",
                 f"Unsupported distribution: {pretty or distro_id} is not Debian-based.",
-                "Ominty targets Debian-family systems only.",
+                "Ominti-Desktop targets Debian-family systems only.",
                 "blocking",
             )
         )
@@ -598,8 +598,8 @@ def _check_platform(osr: dict[str, str]) -> tuple[dict, list[Finding]]:
             Finding(
                 "platform",
                 "fail",
-                f"Detected platform '{platform_id}', which Ominty does not support yet.",
-                "Ominty is validated on Debian-family systems (Debian 13 / LMDE 7).",
+                f"Detected platform '{platform_id}', which Ominti-Desktop does not support yet.",
+                "Ominti-Desktop is validated on Debian-family systems (Debian 13 / LMDE 7).",
                 "blocking",
             )
         )
@@ -620,8 +620,8 @@ def _check_platform(osr: dict[str, str]) -> tuple[dict, list[Finding]]:
                 "platform",
                 "fail",
                 f"{pretty or distro_id} is {KNOWN_UNSUPPORTED_CODENAMES[codename]}, "
-                "which Ominty cannot install on.",
-                "Ominty targets Debian 13 (trixie) and LMDE 7 (gigi). Debian 12 "
+                "which Ominti-Desktop cannot install on.",
+                "Ominti-Desktop targets Debian 13 (trixie) and LMDE 7 (gigi). Debian 12 "
                 "has no trixie-backports, so quickshell cannot be installed. "
                 "Upgrade the host to LMDE 7 / Debian 13 first.",
                 "blocking",
@@ -882,7 +882,7 @@ def _shell_dir() -> Path:
 
 
 def _shell_overlay_applied(shell_dir: Path | None = None) -> bool:
-    """True when the fork carries the Ominty ElevationShadow glow patch."""
+    """True when the fork carries the Ominti-Desktop ElevationShadow glow patch."""
     shadow = (shell_dir or _shell_dir()) / "DankCommon" / "Common" / "ElevationShadow.qml"
     try:
         return shadow.is_file() and "property bool glowEnabled" in shadow.read_text(
@@ -958,7 +958,7 @@ def _check_desktop() -> tuple[dict, list[Finding]]:
             Finding(
                 "desktop.shell_overlay",
                 "warn",
-                "DMS runs the stock shell; the Ominty overlay is not applied.",
+                "DMS runs the stock shell; the Ominti-Desktop overlay is not applied.",
                 "Run configs/dms/shell-overlay/apply.sh after DMS has started once.",
             )
         )
@@ -1541,11 +1541,11 @@ def _choice_existing_configs() -> tuple[Choice, dict]:
             id="config.migration",
             question=(
                 "Configuration already exists on this machine. Replace it "
-                "with Ominty's defaults, or keep it and change only what is "
+                "with Ominti-Desktop's defaults, or keep it and change only what is "
                 "missing?"
             ),
             required=True,
-            # Ominty's own config is already deployed, so the replace/keep
+            # Ominti-Desktop's own config is already deployed, so the replace/keep
             # decision is settled. A leftover ~/.config/omivoid is treated as
             # a rollback backup, not an install to migrate (cleaning it up is
             # gap G4, tracked separately), so it must not reopen this question.
@@ -1566,7 +1566,7 @@ def _choice_existing_configs() -> tuple[Choice, dict]:
                     "backup",
                     "Back up, then replace",
                     "Copy existing files to a timestamped .bak-ominty-* "
-                    "sibling before writing Ominty's defaults.",
+                    "sibling before writing Ominti-Desktop's defaults.",
                 ),
             ),
         ),
@@ -1587,14 +1587,14 @@ def _choice_dms_plugins() -> tuple[Choice, dict]:
             required=False,
             rationale=(
                 "These come from the DMS plugin registry rather than from "
-                "Ominty itself, so installing them is a separate decision."
+                "Ominti-Desktop itself, so installing them is a separate decision."
             ),
             default="yes",
             options=(
                 ChoiceOption("yes", "Install plugins", "Adds the DMS plugin symlinks."),
                 ChoiceOption(
                     "no",
-                    "Ominty plugins only",
+                    "Ominti-Desktop plugins only",
                     "Keeps omintyActions and omintyKeybinds, skips the rest.",
                 ),
             ),
@@ -1605,14 +1605,14 @@ def _choice_dms_plugins() -> tuple[Choice, dict]:
 
 
 def _choice_shell_overlay() -> tuple[Choice, dict]:
-    """Whether to run Ominty's patched DMS shell or the stock one."""
+    """Whether to run Ominti-Desktop's patched DMS shell or the stock one."""
     shell_dir = _shell_dir()
     applied = _shell_overlay_applied(shell_dir)
     return (
         Choice(
             id="desktop.shell_overlay",
             question=(
-                "Apply Ominty's motion + accent-glow overlay to the DMS shell, "
+                "Apply Ominti-Desktop's motion + accent-glow overlay to the DMS shell, "
                 "or keep DMS's stock animations?"
             ),
             required=False,
@@ -1627,7 +1627,7 @@ def _choice_shell_overlay() -> tuple[Choice, dict]:
             options=(
                 ChoiceOption(
                     "ominty",
-                    "Ominty overlay",
+                    "Ominti-Desktop overlay",
                     "Accent glow and longer decelerating motion on modals, "
                     "popouts, notifications and OSD.",
                 ),
@@ -1961,7 +1961,7 @@ def main(argv: list[str] | None = None) -> int:
 
     parser = argparse.ArgumentParser(
         prog="ominty inspect",
-        description="Audit this machine for the Ominty layer (read-only).",
+        description="Audit this machine for the Ominti-Desktop layer (read-only).",
     )
     parser.add_argument("--json", action="store_true", help="JSON output")
     parser.add_argument(

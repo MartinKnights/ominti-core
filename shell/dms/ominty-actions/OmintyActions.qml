@@ -1,8 +1,8 @@
-// Ominty Actions — DMS launcher provider.
+// Omi Actions — DMS launcher provider.
 //
-// Bridges the Ominty Action Registry into the DMS launcher.
+// Bridges the Omi Action Registry into the DMS launcher.
 //
-//   Ominty Action Registry
+//   Omi Action Registry
 //          │  (ominty action list --json)
 //          ▼
 //   OmintyActions.qml
@@ -51,7 +51,7 @@ Item {
         if (!pluginService)
             return;
 
-        // First-run default (ADR-006 §13): merge Ominty actions into the
+        // First-run default (ADR-006 §13): merge Omi actions into the
         // universal palette (Super+Space). The interaction explorer (Super+K)
         // is opened with the "!!" sentinel instead of a trigger. Users may
         // switch to trigger mode from the plugin settings.
@@ -115,7 +115,7 @@ Item {
                 icon: "material:bolt",
                 comment: "Ask the default AI provider",
                 action: "ask:" + prompt,
-                categories: ["Ominty · AI"]
+                categories: ["Omi · AI"]
             });
         } else {
             results.push({
@@ -123,7 +123,7 @@ Item {
                 icon: "material:bolt",
                 comment: "Type your question to ask the default AI provider",
                 action: "askhint:",
-                categories: ["Ominty · AI"]
+                categories: ["Omi · AI"]
             });
         }
 
@@ -145,7 +145,7 @@ Item {
                          (chip ? chip + "  " : "") +
                          (a.description || a.id),
                 action: "run:" + a.id,
-                categories: ["Ominty · AI"],
+                categories: ["Omi · AI"],
                 _omintyId: a.id,
                 _omintyBinding: binding,
                 _omintyRisk: a.risk || "routine"
@@ -213,7 +213,7 @@ Item {
                 icon: "material:bolt",
                 comment: (binding ? binding + "  ·  " : "") + (a.description || a.id),
                 action: "run:" + a.id,
-                categories: ["Ominty · " + (a.category || "Actions")],
+                categories: ["Omi · " + (a.category || "Actions")],
                 _omintyId: a.id,
                 _omintyBinding: binding,
                 _omintyRisk: a.risk || "routine"
@@ -240,12 +240,12 @@ Item {
                 askProcess.command = [cliPath, "action", "run", value, "--json"];
                 askProcess.running = true;
                 if (typeof ToastService !== "undefined")
-                    ToastService.showInfo("Ominty AI", "Asking…");
+                    ToastService.showInfo("Omi AI", "Asking…");
                 return;
             }
             Quickshell.execDetached([cliPath, "action", "run", value]);
             if (typeof ToastService !== "undefined")
-                ToastService.showInfo("Ominty", item.name);
+                ToastService.showInfo("Omi", item.name);
             return;
         }
 
@@ -255,13 +255,13 @@ Item {
             askProcess.command = [cliPath, "ai", "ask", value];
             askProcess.running = true;
             if (typeof ToastService !== "undefined")
-                ToastService.showInfo("Ominty AI", "Asking…");
+                ToastService.showInfo("Omi AI", "Asking…");
             return;
         }
 
         if (kind === "askhint") {
             if (typeof ToastService !== "undefined")
-                ToastService.showInfo("Ominty AI", "Type your question after Super+A");
+                ToastService.showInfo("Omi AI", "Type your question after Super+A");
         }
     }
 
@@ -277,8 +277,8 @@ Item {
     // notification centre, unlike a transient toast.
     function notifyReply(reply) {
         const body = (reply && reply.length > 0) ? reply : "(no response)";
-        Quickshell.execDetached(["notify-send", "-a", "Ominty AI", "-t", "0",
-                                 "Ominty AI", body]);
+        Quickshell.execDetached(["notify-send", "-a", "Omi AI", "-t", "0",
+                                 "Omi AI", body]);
     }
 
     Process {
@@ -304,8 +304,8 @@ Item {
 
         onExited: exitCode => {
             if (exitCode !== 0) {
-                Quickshell.execDetached(["notify-send", "-a", "Ominty AI",
-                                         "-u", "critical", "Ominty AI",
+                Quickshell.execDetached(["notify-send", "-a", "Omi AI",
+                                         "-u", "critical", "Omi AI",
                                          "Ask failed (exit " + exitCode + ")"]);
             }
         }

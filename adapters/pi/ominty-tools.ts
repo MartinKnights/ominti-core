@@ -1,7 +1,7 @@
 /**
  * Ominty Pi Tool Bridge (docs/ai/02 §17–19, docs/ai/10 §17, AI-11)
  *
- * Exposes the Ominty AI-accessible capability catalogue as Pi tools.
+ * Exposes the Omi AI-accessible capability catalogue as Pi tools.
  *
  * Tool definitions are GENERATED from the Action Registry at session
  * start via `ominty ai capabilities --json` — no hand-written

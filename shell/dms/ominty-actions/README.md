@@ -1,6 +1,6 @@
-# Ominty Actions — DMS launcher plugin
+# Omi Actions — DMS launcher plugin
 
-Bridges the Ominty Action Registry into the DMS launcher / spotlight.
+Bridges the Ominti-Desktop Action Registry into the DMS launcher / spotlight.
 
 **Status:** Phase 1 prototype (ADR-006)
 **Plugin API:** DMS >= 1.2.0, `type: launcher`
@@ -11,12 +11,12 @@ interaction explorer
 
 ## Purpose
 
-Expose Ominty canonical actions as searchable, executable items inside the
-DMS launcher. This is the first graphical bridge between the Ominty
+Expose Ominti-Desktop canonical actions as searchable, executable items inside the
+DMS launcher. This is the first graphical bridge between the Ominti-Desktop
 architecture and the DMS presentation layer (ADR-006 §10).
 
 ```text
-Ominty Action Registry          (authoritative)
+Ominti-Desktop Action Registry          (authoritative)
         │  ominty action list --json
         ▼
 OmintyActions.qml               (presentation)
@@ -28,12 +28,12 @@ DMS launcher / spotlight
 ominty action run <id>          (execution)
 ```
 
-## Why Ominty uses it
+## Why Ominti-Desktop uses it
 
 ADR-006 establishes a **DMS plugin-first** strategy: before building any
-desktop-facing UI, Ominty must use DMS core, an existing plugin, an
-extension, or a dedicated Ominty plugin. The Action Registry needs a
-graphical search/invocation surface; an Ominty DMS launcher plugin is the
+desktop-facing UI, Ominti-Desktop must use DMS core, an existing plugin, an
+extension, or a dedicated Ominti-Desktop plugin. The Action Registry needs a
+graphical search/invocation surface; an Ominti-Desktop DMS launcher plugin is the
 preferred implementation (ADR-006 §11–13).
 
 The registry remains authoritative. The plugin only presents and invokes
@@ -42,7 +42,7 @@ actions; it never redefines action semantics (ADR-006 §5–6).
 ## Dependencies
 
 - DMS (DankMaterialShell) with launcher plugin support.
-- The Ominty CLI (`cli/ominty`), invoked with `action list` and
+- The Ominti-Desktop CLI (`cli/ominty`), invoked with `action list` and
   `action run`.
 
 No third-party plugin dependencies.
@@ -51,7 +51,7 @@ No third-party plugin dependencies.
 
 Settings are stored by DMS (`PluginSettings`) and read by the launcher
 component via `pluginService.loadPluginData`. On first run the plugin
-defaults to **always-active** so Ominty actions merge into the universal
+defaults to **always-active** so Ominti-Desktop actions merge into the universal
 palette (ADR-006 §13); `Super+K` instead opens the interaction explorer via
 the `!!` sentinel (ADR-006 §12).
 
@@ -59,7 +59,7 @@ the `!!` sentinel (ADR-006 §12).
 | --- | ------- | ------- |
 | `noTrigger` | `true` | Actions appear alongside normal search results (palette merge) |
 | `trigger` | `""` | Optional prefix that activates the provider; empty = always-active |
-| `cliPath` | `$OMINTY_CLI` or `ominty` (PATH) | Ominty CLI executable |
+| `cliPath` | `$OMINTY_CLI` or `ominty` (PATH) | Ominti-Desktop CLI executable |
 | `filterMode` | `all` | `all` / `discoverable` / `palette` |
 
 ### Query semantics
@@ -102,14 +102,14 @@ Action availability is always determined by the registry, not the plugin.
 
 - Tested on LMDE (Niri + DMS).
 - The launcher plugin API is DMS-specific; this component is not portable
-  to other shells. The Ominty CLI it calls is portable.
+  to other shells. The Ominti-Desktop CLI it calls is portable.
 - `Quickshell.execDetached` is used for execution; `ominty action run`
   handles adapter resolution and platform behaviour.
 
 ## Known issues
 
 - The default `cliPath` points at the in-repository entry point. Once
-  Ominty installs an `ominty` binary, update the setting.
+  Ominti-Desktop installs an `ominty` binary, update the setting.
 - Bindings shown are the canonical registry bindings (e.g. `Super+Enter`),
   which may differ cosmetically from the generated Niri KEYS
   (`Mod+Return`).
@@ -126,7 +126,7 @@ The plugin is a symlink into the repo during development:
 ```
 
 To disable: `dms ipc call plugins disable omintyActions`.
-To remove: delete the symlink. No Ominty core configuration is affected.
+To remove: delete the symlink. No Ominti-Desktop core configuration is affected.
 
 ## Verification (Phase 1)
 

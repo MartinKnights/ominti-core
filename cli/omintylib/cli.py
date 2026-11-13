@@ -613,7 +613,7 @@ def cmd_tts_control(args: argparse.Namespace) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="ominty",
-        description="Ominty desktop CLI — action registry and execution.",
+        description="Ominti-Desktop CLI — action registry and execution.",
     )
     sub = parser.add_subparsers(dest="command", required=True)
 

@@ -4,7 +4,7 @@
 **Stage:** AI-10, AI-11, AI-12 (docs/ai/10-ai-phase-1-implementation-plan.md §16–18)
 **Status:** Complete
 
-This document records the Phase B implementation of the Ominty AI layer:
+This document records the Phase B implementation of the Omi AI layer:
 exposing AI-accessible capabilities, bridging them into Pi's tool mechanism,
 and proving the first AI-to-action path. It is part of the implementation
 record (AGENTS.md §28).

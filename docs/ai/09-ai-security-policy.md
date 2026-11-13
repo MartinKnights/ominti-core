@@ -1,4 +1,4 @@
-# Ominty AI Security Policy
+# Omi AI Security Policy
 
 **Project:** `ominty-core`
 **Subsystem:** AI

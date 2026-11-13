@@ -184,7 +184,7 @@ Scope {
                     width: parent.width
                     horizontalAlignment: Text.AlignHCenter
                     elide: Text.ElideMiddle
-                    text: root.title || "Ominty Reader"
+                    text: root.title || "Omi Reader"
                     color: root.pal.on_background
                     font.pixelSize: 12
                     font.bold: true

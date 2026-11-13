@@ -227,7 +227,7 @@ It fits the philosophy of making Ominty a **workflow surface**, rather than trea
 
 ---
 
-### 7. AI Assistant — install as a reference, not as the Ominty AI architecture
+### 7. AI Assistant — install as a reference, not as the Omi AI architecture
 
 There's already an **AI Assistant** DMS plugin with multiple provider support, streaming responses, Markdown rendering and persistent chat history. ([GitHub][8])
 
@@ -241,7 +241,7 @@ Instead, evaluate it as a possible DMS presentation layer:
                  Super+A
                     │
                     ▼
-             Ominty AI layer
+             Omi AI layer
               /           \
              /             \
            Pi              Herdr
@@ -350,12 +350,12 @@ And DMS's plugin architecture makes this much more practical than I initially ex
 
 ### The first Ominty plugin I would eventually build
 
-Interestingly, I now think we should consider an **`Ominty Actions` DMS plugin** rather than a separate Ominty shell UI.
+Interestingly, I now think we should consider an **`Omi Actions` DMS plugin** rather than a separate Ominty shell UI.
 
 It could be a composite plugin:
 
 ```text
-Ominty Actions
+Omi Actions
 │
 ├── Launcher provider
 │      └── searches Action Registry

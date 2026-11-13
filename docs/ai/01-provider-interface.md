@@ -1,4 +1,4 @@
-# Ominty AI Provider Interface
+# Omi AI Provider Interface
 
 **Project:** `ominty-core`
 **Subsystem:** AI
@@ -25,7 +25,7 @@ The central rule is:
 Ominty Interaction
        │
        ▼
-Ominty AI Layer
+Omi AI Layer
        │
        ▼
 Provider Interface
@@ -324,7 +324,7 @@ Prefer provider interfaces that can return structured data.
 
 If Pi only exposes suitable CLI output, isolate parsing inside the Pi provider adapter.
 
-Do not leak parsing assumptions into the wider Ominty AI layer.
+Do not leak parsing assumptions into the wider Omi AI layer.
 
 ---
 
@@ -703,7 +703,7 @@ Correct:
 ```text
 DMS
  ↓
-Ominty AI
+Omi AI
  ↓
 Provider
 ```

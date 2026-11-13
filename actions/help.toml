@@ -21,7 +21,7 @@ keywords = ["help", "keys", "shortcuts", "explorer", "discover"]
 keys = ["Super+K"]
 
 # ADR-006 §12: Super+K is served through the DMS launcher provider.
-# The Ominty Actions plugin interprets a leading "!!" as "show all actions"
+# The Omi Actions plugin interprets a leading "!!" as "show all actions"
 # (two characters because the DMS launcher ignores single-character queries
 # in its plugin phase), so the spotlight opens as an interaction explorer /
 # cheatsheet. The former Quickshell popup is retired.
@@ -48,7 +48,7 @@ category = "Help"
 keywords = ["search", "palette", "actions", "run", "launcher"]
 
 # Super+Space is claimed by DMS (spotlight launcher, dms-evaluation.md §4.2).
-# The action maps to DMS spotlight; the Ominty popup is retired for search.
+# The action maps to DMS spotlight; the Omi popup is retired for search.
 keys = ["Super+Space"]
 
 adapter = "command"

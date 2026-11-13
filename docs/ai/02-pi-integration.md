@@ -181,7 +181,7 @@ ai/providers/pi/
 Conceptually:
 
 ```text
-Ominty AI request
+Omi AI request
        │
        ▼
 Pi provider adapter
@@ -272,7 +272,7 @@ Expected flow:
 ```text
 CLI
  ↓
-Ominty AI layer
+Omi AI layer
  ↓
 provider resolver
  ↓
@@ -323,7 +323,7 @@ Only add settings when needed.
 
 ---
 
-# 17. Pi Tools and Ominty Actions
+# 17. Pi Tools and Omi Actions
 
 The key integration point is exposing selected Ominty actions as Pi tools/capabilities.
 
@@ -829,7 +829,7 @@ Possible interaction:
 ```text
 DMS
  ↓
-Ominty AI
+Omi AI
  ↓
 Pi
 ```

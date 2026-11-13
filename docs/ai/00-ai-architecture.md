@@ -1,4 +1,4 @@
-Ominty AI Architecture
+Omi AI Architecture
 
 Project: "ominty-core"
 Subsystem: AI
@@ -23,7 +23,7 @@ The architectural objective is:
 
 2. Design Objectives
 
-The Ominty AI subsystem should be:
+The Omi AI subsystem should be:
 
 - local-first;
 - lightweight on laptops;
@@ -81,7 +81,7 @@ rather than maximum local model capacity.
           └────────────┼────────────┘
                        │
                        ▼
-               Ominty AI Layer
+               Omi AI Layer
                        │
              ┌─────────┴─────────┐
              ▼                   ▼
@@ -102,7 +102,7 @@ rather than maximum local model capacity.
 
 Future expansion:
 
-                 Ominty AI Layer
+                 Omi AI Layer
                         │
              ┌──────────┴──────────┐
              ▼                     ▼
@@ -379,7 +379,7 @@ It does not mean every model must run locally.
 
 16. Model Independence
 
-The Ominty AI architecture must not assume a particular model.
+The Omi AI architecture must not assume a particular model.
 
 A provider may use:
 
@@ -785,7 +785,7 @@ Do not initially build:
 
 - distributed agent network;
 - autonomous background agent;
-- long-running Ominty AI daemon;
+- long-running Omi AI daemon;
 - full Herdr orchestration;
 - Agno integration;
 - voice;

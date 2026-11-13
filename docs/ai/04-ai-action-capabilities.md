@@ -1,4 +1,4 @@
-# Ominty AI Action Capability Specification
+# Omi AI Action Capability Specification
 
 **Project:** `ominty-core`
 **Subsystem:** AI

@@ -4,7 +4,7 @@
 **Stage:** AI-13, AI-14, AI-15, AI-16 (docs/ai/10-ai-phase-1-implementation-plan.md §19–22)
 **Status:** Complete
 
-This document records the Phase C implementation of the Ominty AI layer:
+This document records the Phase C implementation of the Omi AI layer:
 enforcing AI action policy, returning structured results to the provider,
 proving the confirmation boundary, and blocking recursive AI invocation.
 It is part of the implementation record (AGENTS.md §28).

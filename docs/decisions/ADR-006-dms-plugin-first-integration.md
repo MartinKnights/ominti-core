@@ -257,7 +257,7 @@ DMS is therefore a consumer of Ominty actions rather than their owner.
 Phase 1 SHOULD investigate creating a dedicated:
 
 ```text
-Ominty Actions
+Omi Actions
 ```
 
 DMS plugin.
@@ -273,7 +273,7 @@ The plugin should remain focused on integration rather than duplicating DMS core
 A future Ominty DMS plugin may provide:
 
 ```text
-Ominty Actions
+Omi Actions
 │
 ├── Launcher Provider
 │   └── Action Registry search
@@ -362,10 +362,10 @@ Potential architecture:
 Super+A
    │
    ▼
-DMS / Ominty AI interface
+DMS / Omi AI interface
    │
    ▼
-Ominty AI Layer
+Omi AI Layer
    │
  ┌─┴──────────────┐
  ▼                ▼
@@ -467,7 +467,7 @@ Suggested structure:
 | Tailscale Manager | Mesh networking    | Adopt candidate    | Network UI          | Relevant to IBIS infrastructure    |
 | Command Runner    | Command execution  | Evaluate           | Expert interface    | Prefer Ominty actions             |
 | Taskwarrior       | Tasks              | Defer/Evaluate     | Project workflow    | Strong local-first fit             |
-| AI Assistant      | AI UI              | Reference/Evaluate | AI presentation     | Must not replace Ominty AI policy |
+| AI Assistant      | AI UI              | Reference/Evaluate | AI presentation     | Must not replace Omi AI policy |
 
 The inventory should evolve as the DMS ecosystem changes.
 
@@ -527,7 +527,7 @@ Possible mapping:
 Core
 ├── interaction discovery
 ├── hooks
-└── Ominty Actions
+└── Omi Actions
 
 Development
 ├── development-service monitoring
@@ -760,7 +760,7 @@ Existing DMS AI plugins should be evaluated primarily as:
 * UX references;
 * integration examples.
 
-They must not silently replace the Ominty AI architecture.
+They must not silently replace the Omi AI architecture.
 
 Ominty intends to support a controlled AI layer involving Pi, Herdr and potentially additional providers.
 

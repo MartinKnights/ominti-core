@@ -1,4 +1,4 @@
-# Ominty AI Phase 1 Implementation Plan
+# Omi AI Phase 1 Implementation Plan
 
 **Project:** `ominty-core`
 **Subsystem:** AI
@@ -9,7 +9,7 @@
 
 # 1. Purpose
 
-This document defines the implementation sequence for the first Ominty AI milestone.
+This document defines the implementation sequence for the first Omi AI milestone.
 
 The objective is to prove the architecture with the smallest useful implementation before introducing distributed orchestration or advanced AI workflows.
 
@@ -872,12 +872,12 @@ The implementation agent should stop and report rather than improvise architectu
 
 # 48. Definition of Done
 
-The first Ominty AI milestone is complete when:
+The first Omi AI milestone is complete when:
 
 ```text
 Super+A
    ↓
-Ominty AI layer
+Omi AI layer
    ↓
 Pi
 ```

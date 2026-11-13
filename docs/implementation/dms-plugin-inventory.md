@@ -225,9 +225,9 @@ invoked via `ominty action run <id>`, not raw shell.
 | Status | reviewed |
 
 **Ominty role:** AI presentation layer candidate (ADR-006 §31). Must NOT
-replace the Ominty AI architecture (Pi, Herdr, Action Registry policy).
+replace the Omi AI architecture (Pi, Herdr, Action Registry policy).
 
-**Classification:** REFERENCE ONLY for Phase 1. Ominty AI policy
+**Classification:** REFERENCE ONLY for Phase 1. Omi AI policy
 (`ai_accessible`, `risk`, `confirmation`) governs AI capability access.
 
 ## 4.5 tailscale — Tailscale Manager
@@ -286,9 +286,9 @@ Strong local-first fit.
 
 | Requirement | DMS Core | Existing Plugin | Ominty Plugin | Standalone |
 | ----------- | -------- | --------------- | -------------- | ---------- |
-| `Super+K` interaction explorer | KeybindsModal (partial — no Ominty data) | dankLauncherKeys (REFERENCE ONLY — cannot consume registry) | **Ominty Actions launcher provider (wired: `openQuery "!!"`)** | Ominty popup (retired) |
-| `Super+Space` universal palette | DankLauncherV2 spotlight | — | **Ominty Actions launcher provider (wired: always-active / merge)** | Custom launcher (rejected) |
-| `Super+A` AI namespace | — | aiAssistant (reference only) | Future Ominty AI provider | Future |
+| `Super+K` interaction explorer | KeybindsModal (partial — no Ominty data) | dankLauncherKeys (REFERENCE ONLY — cannot consume registry) | **Omi Actions launcher provider (wired: `openQuery "!!"`)** | Ominty popup (retired) |
+| `Super+Space` universal palette | DankLauncherV2 spotlight | — | **Omi Actions launcher provider (wired: always-active / merge)** | Custom launcher (rejected) |
+| `Super+A` AI namespace | — | aiAssistant (reference only) | Future Omi AI provider | Future |
 | `Super+P` project namespace | — | taskwarrior/todoLauncher (defer) | Future Ominty project provider | Future |
 | Event integration | — | dankHooks (installed) | Active | Ominty daemon (deferred) |
 | Wallpaper/theme | WallpaperBackground, DankDash | wallpaperCarousel (installed) | Future theme provider | Custom theme engine (rejected) |
@@ -304,7 +304,7 @@ Based on this audit:
 1. ✅ **Install and evaluate `dankLauncherKeys`** for `Super+K` (ADR-006 §12).
    **Result:** cannot consume Ominty registry data; classified REFERENCE
    ONLY.
-2. ✅ **Prototype the "Ominty Actions" DMS launcher plugin** (ADR-006 §10).
+2. ✅ **Prototype the "Omi Actions" DMS launcher plugin** (ADR-006 §10).
    **Result:** built at `shell/dms/ominty-actions/`; loads 21 registry
    actions; invokes actions via `ominty action run <id>`. See §6.1.
 3. ✅ **Evaluate `dankHooks`** for event integration (wallpaper → theme
@@ -317,7 +317,7 @@ Based on this audit:
 5. ⏳ **Defer** AI presentation, project workflow, and Tailscale UI to later
    stages.
 
-## 6.1 Ominty Actions plugin prototype
+## 6.1 Omi Actions plugin prototype
 
 | Field | Value |
 | ----- | ----- |
@@ -399,7 +399,7 @@ Resolved during this audit:
 - ✅ Does the DMS launcher plugin contract support dynamic item loading from
   an external process? **Yes** — `getItems()` + `Process` reading
   `ominty action list --json` works (21 actions loaded).
-- ✅ Should the Ominty Actions plugin use a trigger prefix or
+- ✅ Should the Omi Actions plugin use a trigger prefix or
   always-visible mode? **Always-visible (palette merge) is the Phase 1
   default**; a trigger prefix remains available via settings.
 - ✅ For `Super+Space`, should Ominty actions merge into every search or

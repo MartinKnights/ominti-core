@@ -4,6 +4,11 @@
 > 2026-09-28, before the OmiVoid → Ominty rebrand. Several references below are
 > superseded. For current instructions see [`AGENTS.md`](AGENTS.md) and the
 > distribution repo's root `AGENTS.md`.
+>
+> **Repository rename (2026-11-13).** The product and repositories are now
+> **Ominti-Desktop** and **ominti-core**. References below intentionally keep the
+> names that were current on 2026-09-28; use the current URLs in
+> [`../README.md`](../README.md) for clones and updates.
 
 > Brief handover for the next agent session. Read this first, then the
 > documents listed below (and `../PROGRESS.md`, the living progress log).

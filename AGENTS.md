@@ -1,4 +1,9 @@
-# AGENTS.md — Ominty LMDE
+# AGENTS.md — Ominti-Desktop implementation
+
+> **Naming (2026-11-13).** The product is **Ominti-Desktop** and this repository
+> is **`ominti-core`**. Historical implementation records in `docs/` and
+> `HANDOVER.md` may still say "Ominty" / "ominty-core"; current commands and
+> repository URLs are the ones in the parent `README.md`.
 
 ## 1. Purpose
 
@@ -8,15 +13,15 @@ The agent is responsible for implementing the project.
 
 The architecture is defined by the project documentation.
 
-The agent MUST treat the documentation as the design authority rather than independently redesigning Ominty during implementation.
+The agent MUST treat the documentation as the design authority rather than independently redesigning Ominti-Desktop during implementation.
 
 ---
 
 # 2. Project Objective
 
-`ominty-core` is the Phase 1 reference implementation of Ominty.
+`ominty-core` is the Phase 1 reference implementation of Ominti-Desktop.
 
-Ominty is intended to be:
+Ominti-Desktop is intended to be:
 
 * keyboard-first;
 * discoverable;
@@ -31,7 +36,7 @@ LMDE is the Phase 1 validation platform.
 This repository is **objective 1** of a twofold project: it is developed and
 validated on a live machine. **Objective 2** turns what is validated here into a
 reproducible install/**migration** process for the distribution repo
-(`MartinKnights/Ominty`). Development here therefore feeds distribution — work
+(`MartinKnights/Ominti-Desktop`). Development here therefore feeds distribution — work
 must stay generic and free of personal paths (§33) so it can be lifted into the
 installer. The deployment entry point is that repo's `AGENTS.md`; the migration
 record is its `docs/MIGRATION.md`.
@@ -233,7 +238,7 @@ Avoid unnecessary:
 ```text
 Niri
 → spawned script
-→ Ominty
+→ ominty
 → Niri IPC
 ```
 
@@ -262,7 +267,7 @@ Quickshell already exists.
 
 Do not reinstall or replace it unnecessarily.
 
-Custom Ominty Quickshell components should be focused and isolated.
+Custom Ominti-Desktop Quickshell components should be focused and isolated.
 
 Do not build a full shell from scratch unless DMS proves unsuitable.
 
@@ -313,7 +318,7 @@ Wallpaper
    ↓
 Palette
    ↓
-Canonical Ominty colours
+Canonical Ominti-Desktop colours
    ↓
 Theme adapters
    ↓
@@ -338,7 +343,7 @@ Initial namespace:
 Super+A
 ```
 
-AI should use registered Ominty capabilities for routine desktop actions where practical.
+AI should use registered Ominti-Desktop capabilities for routine desktop actions where practical.
 
 Example:
 
@@ -710,7 +715,7 @@ Do not declare Phase 1 complete based solely on visual appearance or partial fun
 The following are intentionally deferred unless required to unblock Phase 1:
 
 ```text
-Ominty daemon
+Ominti-Desktop daemon
 event bus
 remote action routing
 full Herdr orchestration
@@ -776,7 +781,7 @@ Do not escalate trivial implementation choices.
 
 Before making a substantial decision ask:
 
-> Does this change what Ominty is, what owns a capability, how users interact with it, or a boundary between components?
+> Does this change what Ominti-Desktop is, what owns a capability, how users interact with it, or a boundary between components?
 
 If yes, it is probably an architectural decision and should be documented.
 
@@ -808,4 +813,4 @@ large implementation
 architecture after the fact
 ```
 
-The implementation agent's job is to make the Ominty design concrete while protecting the architectural intent that makes the project coherent.
+The implementation agent's job is to make the Ominti-Desktop design concrete while protecting the architectural intent that makes the project coherent.
